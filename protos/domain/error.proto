@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
+
+message Error {
+    int32 code = 1;
+    string message = 2;
+}

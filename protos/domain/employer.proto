@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package domain;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
+
+message Employer {
+    string id = 1;
+    string company_name = 2;
+    string website_url = 3;
+    string industry = 4;
+    string photo_url = 5;
+    string company_phone_number = 6;
+    string company_address = 7;
+    string company_information = 8;
+    bool is_lanco = 9;
+}

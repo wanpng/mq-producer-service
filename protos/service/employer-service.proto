@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package service;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/service";
+
+import "protos/domain/employer.proto";
+import "protos/domain/error.proto";
+
+service EmployerService {
+    rpc sendEmployerMQ(domain.Employer) returns (SendToMQResponse);
+}
+
+message SendToMQResponse {
+    domain.Employer employer = 1;
+    domain.Error error = 2;
+}
