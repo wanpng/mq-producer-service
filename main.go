@@ -7,7 +7,13 @@ import (
 	"google.golang.org/grpc"
 	"github.com/wanpng/mq-producer-service/grpc/service"
 	"github.com/wanpng/mq-producer-service/grpc/impl"
+	"github.com/wanpng/mq-producer-service/config"
+	"github.com/wanpng/mq-producer-service/data/mq"
 )
+
+func init() {
+	config.InitSettings()
+}
 
 func main() {
 	lis, err := net.Listen("tcp", ":9000")
@@ -16,7 +22,16 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	employerServiceImpl := impl.EmployerServiceServerImpl{}
+	conn, ch, err := mq.DeclareQueue(mq.Employer)
+
+	if err != nil {
+		log.Fatalf("Unable to declare queue")
+	}
+
+	defer conn.Close()
+	defer ch.Close()
+
+	employerServiceImpl := impl.NewEmployerServiceServerImpl(ch)
 
 	grpcServer := grpc.NewServer()
 

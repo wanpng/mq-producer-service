@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package protos.domain;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
+
+message WorkExperience {
+    string job_title = 1;
+    string company = 2;
+    string description = 3;
+    bool is_current_work = 4;
+    int32 from_month = 5;
+    int32 from_year = 6;
+    int32 to_month = 7;
+    int32 to_year = 8;
+}

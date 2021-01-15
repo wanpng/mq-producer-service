@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package domain;
+package protos.domain;
 
 option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
 

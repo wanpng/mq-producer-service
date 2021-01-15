@@ -31,7 +31,7 @@ func NewEmployerServiceClient(cc grpc.ClientConnInterface) EmployerServiceClient
 
 func (c *employerServiceClient) SendEmployerMQ(ctx context.Context, in *domain.Employer, opts ...grpc.CallOption) (*SendToMQResponse, error) {
 	out := new(SendToMQResponse)
-	err := c.cc.Invoke(ctx, "/service.EmployerService/sendEmployerMQ", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protos.service.EmployerService/sendEmployerMQ", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -76,7 +76,7 @@ func _EmployerService_SendEmployerMQ_Handler(srv interface{}, ctx context.Contex
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/service.EmployerService/sendEmployerMQ",
+		FullMethod: "/protos.service.EmployerService/sendEmployerMQ",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(EmployerServiceServer).SendEmployerMQ(ctx, req.(*domain.Employer))
@@ -85,7 +85,7 @@ func _EmployerService_SendEmployerMQ_Handler(srv interface{}, ctx context.Contex
 }
 
 var _EmployerService_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "service.EmployerService",
+	ServiceName: "protos.service.EmployerService",
 	HandlerType: (*EmployerServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -94,5 +94,5 @@ var _EmployerService_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protos/service/employer-service.proto",
+	Metadata: "protos/service/employer_service.proto",
 }

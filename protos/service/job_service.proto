@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package protos.service;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/service";
+
+import "protos/domain/job.proto";
+import "protos/domain/error.proto";
+
+service JobService {
+    rpc sendJobMQ(domain.Job) returns (SendJobMQResponse);
+}
+
+message SendJobMQResponse {
+    domain.Job employer = 1;
+    domain.Error error = 2;
+}

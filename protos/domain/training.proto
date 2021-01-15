@@ -4,7 +4,8 @@ package protos.domain;
 
 option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
 
-message Error {
-    int32 code = 1;
-    string message = 2;
+message Training {
+    string institution = 1;
+    string training = 2;
+    string description = 3;
 }

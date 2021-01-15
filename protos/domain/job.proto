@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package protos.domain;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
+
+message Job {
+    string id = 1;
+    string employer_id= 2;
+    string employer = 3;
+    string job_title = 4;
+    int32 province_id = 5;
+    string province = 6;
+    int32 career_level_id = 7;
+    string career_level = 8;
+    int32 employment_type_id = 9;
+    string employment_type = 10;
+    sint64 publish_status_date = 11;
+    string job_summary = 12;
+    string job_description = 13;
+    int32 job_classification_id = 14;
+    string job_classification = 15;
+    sint64 date_created = 16;
+}
