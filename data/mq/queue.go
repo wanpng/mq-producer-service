@@ -10,6 +10,44 @@ import (
 )
 
 func DeclareQueue(name QueueName) (*amqp.Connection, *amqp.Channel, error) {
+	conn, err := connect()
+	failOnError(err, "Failed to connect to RabbitMQ")
+
+	ch, err := conn.Channel()
+	failOnError(err, "Failed to open a Channel")
+
+	_, err = ch.QueueDeclare(
+		string(name),
+		false,
+		false,
+		false,
+		false,
+		nil)
+
+	return conn, ch, err
+}
+
+func DeclareExchange(exname ExchangeName) (*amqp.Connection, *amqp.Channel, error) {
+	conn, err := connect()
+	failOnError(err, "Failed to connect to RabbitMQ")
+
+	ch, err := conn.Channel()
+	failOnError(err, "Failed to open a Channel")
+
+	err = ch.ExchangeDeclare(
+		string(exname), // name
+		"direct", // type
+		true, // durable
+		false, // auto-deleted
+		false, // internal
+		false, // no-wait
+		nil, // arguments
+	)
+
+	return conn, ch, err
+}
+
+func connect() (*amqp.Connection, error) {
 	var username, password, host string
 
 	if username = viper.GetString("mqusername"); username == "" {
@@ -26,21 +64,7 @@ func DeclareQueue(name QueueName) (*amqp.Connection, *amqp.Channel, error) {
 
 	port := viper.GetInt("mqport")
 
-	conn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s:%d/", username, password, host, port))
-	failOnError(err, "Failed to connect to RabbitMQ")
-
-	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a Channel")
-
-	_, err = ch.QueueDeclare(
-		fmt.Sprintf("%s-%s", string(name), os.Getenv("ENV")),
-		false,
-		false,
-		false,
-		false,
-		nil)
-
-	return conn, ch, err
+	return amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s:%d/", username, password, host, port))
 }
 
 func failOnError(err error, msg string)  {

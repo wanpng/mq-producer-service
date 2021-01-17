@@ -9,3 +9,13 @@ message Training {
     string training = 2;
     string description = 3;
 }
+
+message JobseekerTraining {
+    string id = 1;
+    repeated Training trainings = 2;
+}
+
+message JobseekerTrainingDelete {
+    string id = 1;
+    Training training = 2;
+}

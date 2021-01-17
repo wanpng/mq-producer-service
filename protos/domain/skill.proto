@@ -10,3 +10,8 @@ message Skill {
     int32 level_id = 3;
     string level = 4;
 }
+
+message JobseekerSkill {
+    string id = 1;
+    repeated Skill skills = 2;
+}

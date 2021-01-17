@@ -8,10 +8,10 @@ import "protos/domain/job.proto";
 import "protos/domain/error.proto";
 
 service JobService {
-    rpc sendJobMQ(domain.Job) returns (SendJobMQResponse);
+    rpc sendJobToMQ(protos.domain.Job) returns (SendJobToMQResponse);
 }
 
-message SendJobMQResponse {
-    domain.Job employer = 1;
-    domain.Error error = 2;
+message SendJobToMQResponse {
+    protos.domain.Job job = 1;
+    protos.domain.Error error = 2;
 }

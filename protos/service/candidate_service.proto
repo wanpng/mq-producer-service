@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package protos.service;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/service";
+
+import "protos/domain/jobseekerprofile.proto";
+import "protos/domain/jobseekerjobpreferences.proto";
+import "protos/domain/skill.proto";
+import "protos/domain/jobseekersummary.proto";
+import "protos/domain/education.proto";
+import "protos/domain/work_experience.proto";
+import "protos/domain/training.proto";
+import "protos/domain/error.proto";
+
+service CandidateService {
+    rpc saveJobseekerProfile(protos.domain.JobseekerProfile) returns (protos.domain.Error);
+    rpc saveJobseekerJobPreferences(protos.domain.JobseekerJobPreferences) returns (protos.domain.Error);
+    rpc saveJobseekerSkills(protos.domain.JobseekerSkill) returns (protos.domain.Error);
+    rpc saveJobseekerSummary(protos.domain.JobseekerSummary) returns (protos.domain.Error);
+    rpc saveJobseekerEducation(protos.domain.JobseekerEducation) returns (protos.domain.Error);
+    rpc deleteJobseekerEducation(protos.domain.JobSeekerEducationDelete) returns (protos.domain.Error);
+    rpc saveJobseekerWorkExperience(protos.domain.JobseekerWorkExperience) returns (protos.domain.Error);
+    rpc deleteJobseekerWorkExperience(protos.domain.JobseekerWorkExperienceDelete) returns (protos.domain.Error);
+    rpc saveJobseekerTraining(protos.domain.JobseekerTraining) returns (protos.domain.Error);
+    rpc deleteJobseekerTraining(protos.domain.JobseekerTrainingDelete) returns (protos.domain.Error);
+}

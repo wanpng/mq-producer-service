@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package protos.domain;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
+
+import "protos/domain/employment_type.proto";
+import "protos/domain/skill.proto";
+import "protos/domain/education.proto";
+import "protos/domain/work_experience.proto";
+import "protos/domain/training.proto";
+
+message Candidate {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string photo_url = 4;
+    bool is_land_owner = 5;
+    int32 career_level_id = 6;
+    string career_level = 7;
+    string summary = 8;
+    int32 province_id = 9;
+    string province = 10;
+    repeated protos.domain.EmploymentType employment_types = 11;
+    int32 availability_id = 12;
+    string availability = 13;
+    repeated protos.domain.Skill skills = 14;
+    repeated protos.domain.Education educations = 15;
+    repeated protos.domain.WorkExperience work_experiences = 16;
+    repeated protos.domain.Training trainings = 17;
+}

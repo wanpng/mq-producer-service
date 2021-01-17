@@ -12,6 +12,6 @@ service EmployerService {
 }
 
 message SendToMQResponse {
-    domain.Employer employer = 1;
-    domain.Error error = 2;
+    protos.domain.Employer employer = 1;
+    protos.domain.Error error = 2;
 }

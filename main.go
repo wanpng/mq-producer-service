@@ -22,7 +22,7 @@ func main() {
 		log.Fatalf("Failed to listen: %v", err)
 	}
 
-	conn, ch, err := mq.DeclareQueue(mq.Employer)
+	conn, ch, err := mq.DeclareExchange(mq.JobseekerEx)
 
 	if err != nil {
 		log.Fatalf("Unable to declare queue")
@@ -32,10 +32,14 @@ func main() {
 	defer ch.Close()
 
 	employerServiceImpl := impl.NewEmployerServiceServerImpl(ch)
+	jobServiceImpl := impl.NewJobServiceServerImpl(ch)
+	candidateServiceImpl := impl.NewCandidateServiceServerImpl(ch)
 
 	grpcServer := grpc.NewServer()
 
 	service.RegisterEmployerServiceServer(grpcServer, employerServiceImpl)
+	service.RegisterJobServiceServer(grpcServer, jobServiceImpl)
+	service.RegisterCandidateServiceServer(grpcServer, candidateServiceImpl)
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)

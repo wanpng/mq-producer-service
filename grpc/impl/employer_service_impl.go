@@ -23,7 +23,7 @@ func NewEmployerServiceServerImpl(ch *amqp.Channel) EmployerServiceServerImpl {
 
 // SendToMQ function implementation of gRPC service
 func (serviceImpl EmployerServiceServerImpl) SendEmployerMQ(context context.Context, in *domain.Employer) (*service.SendToMQResponse, error) {
-	mq.SendMQ(in, serviceImpl.Channel, mq.Employer)
+	mq.SendMQ(in, serviceImpl.Channel, mq.Jobseeker)
 
 	println("mq sent")
 	return &service.SendToMQResponse{

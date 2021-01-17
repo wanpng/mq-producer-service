@@ -14,3 +14,13 @@ message WorkExperience {
     int32 to_month = 7;
     int32 to_year = 8;
 }
+
+message JobseekerWorkExperience {
+    string id = 1;
+    repeated WorkExperience work_experiences = 2;
+}
+
+message JobseekerWorkExperienceDelete {
+    string id = 1;
+    WorkExperience work_experience = 2;
+}

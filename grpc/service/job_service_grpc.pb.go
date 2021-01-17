@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type JobServiceClient interface {
-	SendJobMQ(ctx context.Context, in *domain.Job, opts ...grpc.CallOption) (*SendJobMQResponse, error)
+	SendJobToMQ(ctx context.Context, in *domain.Job, opts ...grpc.CallOption) (*SendJobToMQResponse, error)
 }
 
 type jobServiceClient struct {
@@ -29,9 +29,9 @@ func NewJobServiceClient(cc grpc.ClientConnInterface) JobServiceClient {
 	return &jobServiceClient{cc}
 }
 
-func (c *jobServiceClient) SendJobMQ(ctx context.Context, in *domain.Job, opts ...grpc.CallOption) (*SendJobMQResponse, error) {
-	out := new(SendJobMQResponse)
-	err := c.cc.Invoke(ctx, "/protos.service.JobService/sendJobMQ", in, out, opts...)
+func (c *jobServiceClient) SendJobToMQ(ctx context.Context, in *domain.Job, opts ...grpc.CallOption) (*SendJobToMQResponse, error) {
+	out := new(SendJobToMQResponse)
+	err := c.cc.Invoke(ctx, "/protos.service.JobService/sendJobToMQ", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -42,7 +42,7 @@ func (c *jobServiceClient) SendJobMQ(ctx context.Context, in *domain.Job, opts .
 // All implementations must embed UnimplementedJobServiceServer
 // for forward compatibility
 type JobServiceServer interface {
-	SendJobMQ(context.Context, *domain.Job) (*SendJobMQResponse, error)
+	SendJobToMQ(context.Context, *domain.Job) (*SendJobToMQResponse, error)
 	mustEmbedUnimplementedJobServiceServer()
 }
 
@@ -50,8 +50,8 @@ type JobServiceServer interface {
 type UnimplementedJobServiceServer struct {
 }
 
-func (UnimplementedJobServiceServer) SendJobMQ(context.Context, *domain.Job) (*SendJobMQResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SendJobMQ not implemented")
+func (UnimplementedJobServiceServer) SendJobToMQ(context.Context, *domain.Job) (*SendJobToMQResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendJobToMQ not implemented")
 }
 func (UnimplementedJobServiceServer) mustEmbedUnimplementedJobServiceServer() {}
 
@@ -66,20 +66,20 @@ func RegisterJobServiceServer(s grpc.ServiceRegistrar, srv JobServiceServer) {
 	s.RegisterService(&_JobService_serviceDesc, srv)
 }
 
-func _JobService_SendJobMQ_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _JobService_SendJobToMQ_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(domain.Job)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(JobServiceServer).SendJobMQ(ctx, in)
+		return srv.(JobServiceServer).SendJobToMQ(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protos.service.JobService/sendJobMQ",
+		FullMethod: "/protos.service.JobService/sendJobToMQ",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(JobServiceServer).SendJobMQ(ctx, req.(*domain.Job))
+		return srv.(JobServiceServer).SendJobToMQ(ctx, req.(*domain.Job))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -89,8 +89,8 @@ var _JobService_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*JobServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "sendJobMQ",
-			Handler:    _JobService_SendJobMQ_Handler,
+			MethodName: "sendJobToMQ",
+			Handler:    _JobService_SendJobToMQ_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

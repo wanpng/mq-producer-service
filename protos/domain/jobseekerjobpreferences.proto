@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package protos.domain;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
+
+import "protos/domain/employment_type.proto";
+
+message JobseekerJobPreferences {
+    string id = 1;
+    int32 career_level_id = 2;
+    string career_level = 3;
+    int32 availability_id = 4;
+    string availability = 5;
+    repeated protos.domain.EmploymentType employment_types = 6;
+}
