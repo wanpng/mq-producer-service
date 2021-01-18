@@ -5,17 +5,13 @@ package protos.domain;
 option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
 
 message Training {
-    string institution = 1;
-    string training = 2;
-    string description = 3;
+    string training_id = 1;
+    string institution = 2;
+    string training = 3;
+    string description = 4;
 }
 
 message JobseekerTraining {
     string id = 1;
     repeated Training trainings = 2;
-}
-
-message JobseekerTrainingDelete {
-    string id = 1;
-    Training training = 2;
 }
