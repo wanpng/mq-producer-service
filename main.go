@@ -4,11 +4,11 @@ import (
 	"log"
 	"net"
 
-	"google.golang.org/grpc"
-	"github.com/wanpng/mq-producer-service/grpc/service"
-	"github.com/wanpng/mq-producer-service/grpc/impl"
 	"github.com/wanpng/mq-producer-service/config"
 	"github.com/wanpng/mq-producer-service/data/mq"
+	"github.com/wanpng/mq-producer-service/grpc/impl"
+	"github.com/wanpng/mq-producer-service/grpc/service"
+	"google.golang.org/grpc"
 )
 
 func init() {
@@ -31,13 +31,11 @@ func main() {
 	defer conn.Close()
 	defer ch.Close()
 
-	employerServiceImpl := impl.NewEmployerServiceServerImpl(ch)
 	jobServiceImpl := impl.NewJobServiceServerImpl(ch)
 	candidateServiceImpl := impl.NewCandidateServiceServerImpl(ch)
 
 	grpcServer := grpc.NewServer()
 
-	service.RegisterEmployerServiceServer(grpcServer, employerServiceImpl)
 	service.RegisterJobServiceServer(grpcServer, jobServiceImpl)
 	service.RegisterCandidateServiceServer(grpcServer, candidateServiceImpl)
 

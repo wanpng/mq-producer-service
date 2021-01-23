@@ -18,7 +18,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type JobServiceClient interface {
-	SendJobToMQ(ctx context.Context, in *domain.Job, opts ...grpc.CallOption) (*SendJobToMQResponse, error)
+	SendJobToMQ(ctx context.Context, in *domain.Job, opts ...grpc.CallOption) (*domain.Error, error)
 }
 
 type jobServiceClient struct {
@@ -29,8 +29,8 @@ func NewJobServiceClient(cc grpc.ClientConnInterface) JobServiceClient {
 	return &jobServiceClient{cc}
 }
 
-func (c *jobServiceClient) SendJobToMQ(ctx context.Context, in *domain.Job, opts ...grpc.CallOption) (*SendJobToMQResponse, error) {
-	out := new(SendJobToMQResponse)
+func (c *jobServiceClient) SendJobToMQ(ctx context.Context, in *domain.Job, opts ...grpc.CallOption) (*domain.Error, error) {
+	out := new(domain.Error)
 	err := c.cc.Invoke(ctx, "/protos.service.JobService/sendJobToMQ", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -42,7 +42,7 @@ func (c *jobServiceClient) SendJobToMQ(ctx context.Context, in *domain.Job, opts
 // All implementations must embed UnimplementedJobServiceServer
 // for forward compatibility
 type JobServiceServer interface {
-	SendJobToMQ(context.Context, *domain.Job) (*SendJobToMQResponse, error)
+	SendJobToMQ(context.Context, *domain.Job) (*domain.Error, error)
 	mustEmbedUnimplementedJobServiceServer()
 }
 
@@ -50,7 +50,7 @@ type JobServiceServer interface {
 type UnimplementedJobServiceServer struct {
 }
 
-func (UnimplementedJobServiceServer) SendJobToMQ(context.Context, *domain.Job) (*SendJobToMQResponse, error) {
+func (UnimplementedJobServiceServer) SendJobToMQ(context.Context, *domain.Job) (*domain.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendJobToMQ not implemented")
 }
 func (UnimplementedJobServiceServer) mustEmbedUnimplementedJobServiceServer() {}
