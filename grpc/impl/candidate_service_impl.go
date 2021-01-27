@@ -25,8 +25,6 @@ func NewCandidateServiceServerImpl(ch *amqp.Channel) CandidateServiceServerImpl 
 
 // SaveJobseekerProfile publish job seeker profile to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfile(context context.Context, in *domain.JobseekerProfile) (*domain.Error, error) {
-	fmt.Printf("SaveJobseekerProfile called: %s %s\n", in.FirstName, in.LastName)
-
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerProfile)
 
 	return &domain.Error{
@@ -37,8 +35,6 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfile(context conte
 
 // SaveJobseekerJobPreferences publish job seeker job preference to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerJobPreferences(context context.Context, in *domain.JobseekerJobPreferences) (*domain.Error, error) {
-	fmt.Printf("SaveJobseekerJobPreferences called: %v\n", in)
-
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.UpdateJobseekerJobPreferences)
 
 	return &domain.Error{
@@ -49,8 +45,6 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerJobPreferences(contex
 
 // SaveJobseekerSkills publish job seeker skills to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerSkills(context context.Context, in *domain.JobseekerSkill) (*domain.Error, error) {
-	fmt.Printf("SaveJobseekerSkills called: %v\n", in)
-
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerSkills)
 
 	return &domain.Error{
@@ -61,8 +55,6 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerSkills(context contex
 
 // SaveJobseekerSummary publish job seeker summary to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerSummary(context context.Context, in *domain.JobseekerSummary) (*domain.Error, error) {
-	fmt.Printf("SaveJobseekerSummary called: %v\n", in)
-
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.UpdateJobseekerSummary)
 
 	return &domain.Error{

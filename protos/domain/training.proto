@@ -13,5 +13,5 @@ message Training {
 
 message JobseekerTraining {
     string id = 1;
-    Training training = 2;
+    repeated Training training = 2;
 }

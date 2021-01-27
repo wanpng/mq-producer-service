@@ -18,5 +18,5 @@ message WorkExperience {
 
 message JobseekerWorkExperience {
     string id = 1;
-    WorkExperience work_experience = 2;
+    repeated WorkExperience work_experience = 2;
 }

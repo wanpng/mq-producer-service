@@ -13,5 +13,5 @@ message Education {
 
 message JobseekerEducation {
     string id = 1;
-    Education education = 2;
+    repeated Education education = 2;
 }
