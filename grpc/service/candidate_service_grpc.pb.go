@@ -4,7 +4,6 @@ package service
 
 import (
 	context "context"
-
 	domain "github.com/wanpng/mq-producer-service/grpc/domain"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
