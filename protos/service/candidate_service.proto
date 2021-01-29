@@ -19,9 +19,6 @@ service CandidateService {
     rpc saveJobseekerSkills(protos.domain.JobseekerSkill) returns (protos.domain.Error);
     rpc saveJobseekerSummary(protos.domain.JobseekerSummary) returns (protos.domain.Error);
     rpc saveJobseekerEducation(protos.domain.JobseekerEducation) returns (protos.domain.Error);
-    rpc deleteJobseekerEducation(protos.domain.JobseekerEducation) returns (protos.domain.Error);
     rpc saveJobseekerWorkExperience(protos.domain.JobseekerWorkExperience) returns (protos.domain.Error);
-    rpc deleteJobseekerWorkExperience(protos.domain.JobseekerWorkExperience) returns (protos.domain.Error);
     rpc saveJobseekerTraining(protos.domain.JobseekerTraining) returns (protos.domain.Error);
-    rpc deleteJobseekerTraining(protos.domain.JobseekerTraining) returns (protos.domain.Error);
 }

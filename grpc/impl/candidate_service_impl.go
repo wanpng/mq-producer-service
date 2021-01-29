@@ -2,7 +2,6 @@ package impl
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/streadway/amqp"
 	"github.com/wanpng/mq-producer-service/data/mq"
@@ -65,8 +64,6 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerSummary(context conte
 
 // SaveJobseekerEducation publish job seeker education to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerEducation(context context.Context, in *domain.JobseekerEducation) (*domain.Error, error) {
-	fmt.Printf("SaveJobseekerEducation called: %v\n", in)
-
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerEducation)
 
 	return &domain.Error{
@@ -77,8 +74,6 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerEducation(context con
 
 // DeleteJobseekerEducation publish delete job seeker education to message queue
 func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerEducation(context context.Context, in *domain.JobseekerEducation) (*domain.Error, error) {
-	fmt.Printf("DeleteJobseekerEducation called: %v\n", in)
-
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.DeleteJobseekerEducation)
 
 	return &domain.Error{
@@ -89,8 +84,6 @@ func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerEducation(context c
 
 // SaveJobseekerWorkExperience publish work experience to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerWorkExperience(context context.Context, in *domain.JobseekerWorkExperience) (*domain.Error, error) {
-	fmt.Printf("SaveJobseekerWorkExperience called: %v\n", in)
-
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerWorkExperience)
 
 	return &domain.Error{
@@ -101,8 +94,6 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerWorkExperience(contex
 
 // DeleteJobseekerWorkExperience publish delete job seeker workexperience to message queue
 func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerWorkExperience(context context.Context, in *domain.JobseekerWorkExperience) (*domain.Error, error) {
-	fmt.Printf("DeleteJobseekerWorkExperience called: %v\n", in)
-
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.DeleteJobseekerWorkExperience)
 
 	return &domain.Error{
@@ -113,8 +104,6 @@ func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerWorkExperience(cont
 
 // SaveJobseekerTraining publish job seeker training to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerTraining(context context.Context, in *domain.JobseekerTraining) (*domain.Error, error) {
-	fmt.Printf("SaveJobseekerTraining called: %v\n", in)
-
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerTraining)
 
 	return &domain.Error{
@@ -125,8 +114,6 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerTraining(context cont
 
 // DeleteJobseekerTraining publish delete job seeker training to message queue
 func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerTraining(context context.Context, in *domain.JobseekerTraining) (*domain.Error, error) {
-	fmt.Printf("DeleteJobseekerTraining called: %v\n", in)
-
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.DeleteJobseekerTraining)
 
 	return &domain.Error{

@@ -23,11 +23,8 @@ type CandidateServiceClient interface {
 	SaveJobseekerSkills(ctx context.Context, in *domain.JobseekerSkill, opts ...grpc.CallOption) (*domain.Error, error)
 	SaveJobseekerSummary(ctx context.Context, in *domain.JobseekerSummary, opts ...grpc.CallOption) (*domain.Error, error)
 	SaveJobseekerEducation(ctx context.Context, in *domain.JobseekerEducation, opts ...grpc.CallOption) (*domain.Error, error)
-	DeleteJobseekerEducation(ctx context.Context, in *domain.JobseekerEducation, opts ...grpc.CallOption) (*domain.Error, error)
 	SaveJobseekerWorkExperience(ctx context.Context, in *domain.JobseekerWorkExperience, opts ...grpc.CallOption) (*domain.Error, error)
-	DeleteJobseekerWorkExperience(ctx context.Context, in *domain.JobseekerWorkExperience, opts ...grpc.CallOption) (*domain.Error, error)
 	SaveJobseekerTraining(ctx context.Context, in *domain.JobseekerTraining, opts ...grpc.CallOption) (*domain.Error, error)
-	DeleteJobseekerTraining(ctx context.Context, in *domain.JobseekerTraining, opts ...grpc.CallOption) (*domain.Error, error)
 }
 
 type candidateServiceClient struct {
@@ -83,27 +80,9 @@ func (c *candidateServiceClient) SaveJobseekerEducation(ctx context.Context, in 
 	return out, nil
 }
 
-func (c *candidateServiceClient) DeleteJobseekerEducation(ctx context.Context, in *domain.JobseekerEducation, opts ...grpc.CallOption) (*domain.Error, error) {
-	out := new(domain.Error)
-	err := c.cc.Invoke(ctx, "/protos.service.CandidateService/deleteJobseekerEducation", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *candidateServiceClient) SaveJobseekerWorkExperience(ctx context.Context, in *domain.JobseekerWorkExperience, opts ...grpc.CallOption) (*domain.Error, error) {
 	out := new(domain.Error)
 	err := c.cc.Invoke(ctx, "/protos.service.CandidateService/saveJobseekerWorkExperience", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *candidateServiceClient) DeleteJobseekerWorkExperience(ctx context.Context, in *domain.JobseekerWorkExperience, opts ...grpc.CallOption) (*domain.Error, error) {
-	out := new(domain.Error)
-	err := c.cc.Invoke(ctx, "/protos.service.CandidateService/deleteJobseekerWorkExperience", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -119,15 +98,6 @@ func (c *candidateServiceClient) SaveJobseekerTraining(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *candidateServiceClient) DeleteJobseekerTraining(ctx context.Context, in *domain.JobseekerTraining, opts ...grpc.CallOption) (*domain.Error, error) {
-	out := new(domain.Error)
-	err := c.cc.Invoke(ctx, "/protos.service.CandidateService/deleteJobseekerTraining", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // CandidateServiceServer is the server API for CandidateService service.
 // All implementations must embed UnimplementedCandidateServiceServer
 // for forward compatibility
@@ -137,11 +107,8 @@ type CandidateServiceServer interface {
 	SaveJobseekerSkills(context.Context, *domain.JobseekerSkill) (*domain.Error, error)
 	SaveJobseekerSummary(context.Context, *domain.JobseekerSummary) (*domain.Error, error)
 	SaveJobseekerEducation(context.Context, *domain.JobseekerEducation) (*domain.Error, error)
-	DeleteJobseekerEducation(context.Context, *domain.JobseekerEducation) (*domain.Error, error)
 	SaveJobseekerWorkExperience(context.Context, *domain.JobseekerWorkExperience) (*domain.Error, error)
-	DeleteJobseekerWorkExperience(context.Context, *domain.JobseekerWorkExperience) (*domain.Error, error)
 	SaveJobseekerTraining(context.Context, *domain.JobseekerTraining) (*domain.Error, error)
-	DeleteJobseekerTraining(context.Context, *domain.JobseekerTraining) (*domain.Error, error)
 	mustEmbedUnimplementedCandidateServiceServer()
 }
 
@@ -164,20 +131,11 @@ func (UnimplementedCandidateServiceServer) SaveJobseekerSummary(context.Context,
 func (UnimplementedCandidateServiceServer) SaveJobseekerEducation(context.Context, *domain.JobseekerEducation) (*domain.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveJobseekerEducation not implemented")
 }
-func (UnimplementedCandidateServiceServer) DeleteJobseekerEducation(context.Context, *domain.JobseekerEducation) (*domain.Error, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteJobseekerEducation not implemented")
-}
 func (UnimplementedCandidateServiceServer) SaveJobseekerWorkExperience(context.Context, *domain.JobseekerWorkExperience) (*domain.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveJobseekerWorkExperience not implemented")
 }
-func (UnimplementedCandidateServiceServer) DeleteJobseekerWorkExperience(context.Context, *domain.JobseekerWorkExperience) (*domain.Error, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteJobseekerWorkExperience not implemented")
-}
 func (UnimplementedCandidateServiceServer) SaveJobseekerTraining(context.Context, *domain.JobseekerTraining) (*domain.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveJobseekerTraining not implemented")
-}
-func (UnimplementedCandidateServiceServer) DeleteJobseekerTraining(context.Context, *domain.JobseekerTraining) (*domain.Error, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteJobseekerTraining not implemented")
 }
 func (UnimplementedCandidateServiceServer) mustEmbedUnimplementedCandidateServiceServer() {}
 
@@ -282,24 +240,6 @@ func _CandidateService_SaveJobseekerEducation_Handler(srv interface{}, ctx conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CandidateService_DeleteJobseekerEducation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(domain.JobseekerEducation)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CandidateServiceServer).DeleteJobseekerEducation(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.service.CandidateService/deleteJobseekerEducation",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CandidateServiceServer).DeleteJobseekerEducation(ctx, req.(*domain.JobseekerEducation))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _CandidateService_SaveJobseekerWorkExperience_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(domain.JobseekerWorkExperience)
 	if err := dec(in); err != nil {
@@ -318,24 +258,6 @@ func _CandidateService_SaveJobseekerWorkExperience_Handler(srv interface{}, ctx 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _CandidateService_DeleteJobseekerWorkExperience_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(domain.JobseekerWorkExperience)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CandidateServiceServer).DeleteJobseekerWorkExperience(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.service.CandidateService/deleteJobseekerWorkExperience",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CandidateServiceServer).DeleteJobseekerWorkExperience(ctx, req.(*domain.JobseekerWorkExperience))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _CandidateService_SaveJobseekerTraining_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(domain.JobseekerTraining)
 	if err := dec(in); err != nil {
@@ -350,24 +272,6 @@ func _CandidateService_SaveJobseekerTraining_Handler(srv interface{}, ctx contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CandidateServiceServer).SaveJobseekerTraining(ctx, req.(*domain.JobseekerTraining))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _CandidateService_DeleteJobseekerTraining_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(domain.JobseekerTraining)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(CandidateServiceServer).DeleteJobseekerTraining(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/protos.service.CandidateService/deleteJobseekerTraining",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(CandidateServiceServer).DeleteJobseekerTraining(ctx, req.(*domain.JobseekerTraining))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -397,24 +301,12 @@ var _CandidateService_serviceDesc = grpc.ServiceDesc{
 			Handler:    _CandidateService_SaveJobseekerEducation_Handler,
 		},
 		{
-			MethodName: "deleteJobseekerEducation",
-			Handler:    _CandidateService_DeleteJobseekerEducation_Handler,
-		},
-		{
 			MethodName: "saveJobseekerWorkExperience",
 			Handler:    _CandidateService_SaveJobseekerWorkExperience_Handler,
 		},
 		{
-			MethodName: "deleteJobseekerWorkExperience",
-			Handler:    _CandidateService_DeleteJobseekerWorkExperience_Handler,
-		},
-		{
 			MethodName: "saveJobseekerTraining",
 			Handler:    _CandidateService_SaveJobseekerTraining_Handler,
-		},
-		{
-			MethodName: "deleteJobseekerTraining",
-			Handler:    _CandidateService_DeleteJobseekerTraining_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
