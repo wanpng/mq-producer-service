@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net"
+	"net/http"
 
 	"github.com/wanpng/mq-producer-service/config"
 	"github.com/wanpng/mq-producer-service/data/mq"
@@ -38,6 +39,10 @@ func main() {
 
 	service.RegisterJobServiceServer(grpcServer, jobServiceImpl)
 	service.RegisterCandidateServiceServer(grpcServer, candidateServiceImpl)
+
+	http.HandleFunc("/hc", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(200)
+	})
 
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to serve: %v", err)
