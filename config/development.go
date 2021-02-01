@@ -23,7 +23,7 @@ func loadDevSettings() {
 	}
 
 	if mqhost, err := ioutil.ReadFile(fmt.Sprintf("%s/mqhost-dev", secretPath)); err == nil {
-		viper.SetDefault("mqpassword", string(mqhost))
+		viper.SetDefault("mqhost", string(mqhost))
 	}
 
 	viper.SetDefault("mqport", 5672)
