@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
-	"net"
 	"net/http"
+	"os"
 
+	"github.com/gorilla/mux"
 	"github.com/wanpng/mq-producer-service/config"
 	"github.com/wanpng/mq-producer-service/data/mq"
 	"github.com/wanpng/mq-producer-service/grpc/impl"
@@ -16,11 +18,13 @@ func init() {
 	config.InitSettings()
 }
 
-func main() {
-	lis, err := net.Listen("tcp", ":9000")
+const defaultPort = "9000"
 
-	if err != nil {
-		log.Fatalf("Failed to listen: %v", err)
+func main() {
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultPort
 	}
 
 	conn, ch, err := mq.DeclareExchange(mq.JobseekerEx)
@@ -40,11 +44,16 @@ func main() {
 	service.RegisterJobServiceServer(grpcServer, jobServiceImpl)
 	service.RegisterCandidateServiceServer(grpcServer, candidateServiceImpl)
 
-	http.HandleFunc("/hc", func(w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(200)
+	router := mux.NewRouter()
+
+	router.HandleFunc("/hc", func(res http.ResponseWriter, req *http.Request) {
+		res.WriteHeader(http.StatusOK)
+		json.NewEncoder(res).Encode(map[string]bool{"ok": true})
 	})
 
-	if err := grpcServer.Serve(lis); err != nil {
-		log.Fatalf("Failed to serve: %v", err)
-	}
+	router.HandleFunc("/", grpcServer.ServeHTTP)
+	http.Handle("/", router)
+
+	log.Printf("connect to http://localhost:%s/ for GRPC", port)
+	log.Fatal(http.ListenAndServe(":"+port, router))
 }
