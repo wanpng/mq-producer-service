@@ -1,12 +1,13 @@
 package main
 
 import (
-	"encoding/json"
+	"fmt"
 	"log"
+	"net"
 	"net/http"
 	"os"
 
-	"github.com/gorilla/mux"
+	"github.com/soheilhy/cmux"
 	"github.com/wanpng/mq-producer-service/config"
 	"github.com/wanpng/mq-producer-service/data/mq"
 	"github.com/wanpng/mq-producer-service/grpc/impl"
@@ -20,12 +21,19 @@ func init() {
 
 const defaultPort = "9000"
 
+func healthCheckHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte("ok"))
+}
+
 func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
 	}
+
+	l, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 
 	conn, ch, err := mq.DeclareExchange(mq.JobseekerEx)
 
@@ -44,16 +52,23 @@ func main() {
 	service.RegisterJobServiceServer(grpcServer, jobServiceImpl)
 	service.RegisterCandidateServiceServer(grpcServer, candidateServiceImpl)
 
-	router := mux.NewRouter()
+	mux := http.NewServeMux()
+	th := http.HandlerFunc(healthCheckHandler)
 
-	router.HandleFunc("/hc", func(res http.ResponseWriter, req *http.Request) {
-		res.WriteHeader(http.StatusOK)
-		json.NewEncoder(res).Encode(map[string]bool{"ok": true})
-	})
+	mux.Handle("/hc", th)
 
-	router.HandleFunc("/", grpcServer.ServeHTTP)
-	http.Handle("/", router)
+	httpServer := &http.Server{
+		Handler: mux,
+	}
 
-	log.Printf("connect to http://localhost:%s/ for GRPC", port)
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	m := cmux.New(l)
+
+	// grpcL := m.Match(cmux.HTTP2HeaderField("content-type", "application/grpc"))
+	httpL := m.Match(cmux.HTTP1Fast())
+	grpcL := m.Match(cmux.Any())
+
+	go grpcServer.Serve(grpcL)
+	go httpServer.Serve(httpL)
+
+	m.Serve()
 }
