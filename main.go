@@ -71,4 +71,6 @@ func main() {
 	go httpServer.Serve(httpL)
 
 	m.Serve()
+
+	log.Printf("Started grpc and http server at port: %s", port)
 }
