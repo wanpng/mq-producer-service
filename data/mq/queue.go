@@ -35,13 +35,23 @@ func DeclareExchange(exname ExchangeName) (*amqp.Connection, *amqp.Channel, erro
 	failOnError(err, "Failed to open a Channel")
 
 	err = ch.ExchangeDeclare(
-		string(exname), // name
-		"direct", // type
-		true, // durable
-		false, // auto-deleted
-		false, // internal
-		false, // no-wait
-		nil, // arguments
+		string(JobseekerEx), // name
+		"direct",            // type
+		true,                // durable
+		false,               // auto-deleted
+		false,               // internal
+		false,               // no-wait
+		nil,                 // arguments
+	)
+
+	err = ch.ExchangeDeclare(
+		string(JobsEx), // name
+		"direct",       // type
+		true,           // durable
+		false,          // auto-deleted
+		false,          // internal
+		false,          // no-wait
+		nil,            // arguments
 	)
 
 	return conn, ch, err
@@ -53,7 +63,7 @@ func connect() (*amqp.Connection, error) {
 	if username = viper.GetString("mqusername"); username == "" {
 		username = os.Getenv("mqusername")
 	}
-	
+
 	if password = viper.GetString("mqpassword"); password == "" {
 		password = os.Getenv("mqpassword")
 	}
@@ -67,7 +77,7 @@ func connect() (*amqp.Connection, error) {
 	return amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s:%d/", username, password, host, port))
 }
 
-func failOnError(err error, msg string)  {
+func failOnError(err error, msg string) {
 	if err != nil {
 		log.Fatalf("%s : %s", msg, err)
 	}

@@ -2,7 +2,7 @@ package impl
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"github.com/streadway/amqp"
 	"github.com/wanpng/mq-producer-service/data/mq"
@@ -25,7 +25,7 @@ func NewJobServiceServerImpl(ch *amqp.Channel) JobServiceServerImpl {
 
 // SendJobToMQ publish job to message queue
 func (serviceImpl JobServiceServerImpl) SendJobToMQ(context context.Context, in *domain.Job) (*domain.Error, error) {
-	fmt.Printf("SendJobToMQ called")
+	log.Printf("SendJobToMQ called")
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobsEx, mq.SaveJobInformation)
 
 	return &domain.Error{

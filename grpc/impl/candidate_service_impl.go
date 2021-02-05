@@ -2,6 +2,7 @@ package impl
 
 import (
 	"context"
+	"log"
 
 	"github.com/streadway/amqp"
 	"github.com/wanpng/mq-producer-service/data/mq"
@@ -24,6 +25,7 @@ func NewCandidateServiceServerImpl(ch *amqp.Channel) CandidateServiceServerImpl 
 
 // SaveJobseekerProfile publish job seeker profile to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfile(context context.Context, in *domain.JobseekerProfile) (*domain.Error, error) {
+	log.Println("SaveJobseekerProfile called from producer")
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerProfile)
 
 	return &domain.Error{

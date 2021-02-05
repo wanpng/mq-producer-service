@@ -2,10 +2,10 @@ package mq
 
 import (
 	"encoding/json"
-	"log"
 	"fmt"
+	"log"
 	"os"
-	
+
 	"github.com/streadway/amqp"
 )
 
@@ -21,16 +21,17 @@ func SendMQ(model interface{}, ch *amqp.Channel, q QueueName) {
 		fmt.Sprintf("%s-%s", string(q), os.Getenv("ENV")),
 		false,
 		false,
-		amqp.Publishing {
+		amqp.Publishing{
 			DeliveryMode: amqp.Persistent,
-			ContentType: "application/json",
-			Body: []byte(b),
+			ContentType:  "application/json",
+			Body:         []byte(b),
 		})
 }
 
-
 func SendMQEx(model interface{}, ch *amqp.Channel, e ExchangeName, r RoutingKey) {
 	b, err := json.MarshalIndent(&model, "", "\t")
+
+	log.Printf("SendMQEx: %v", model)
 
 	if err != nil {
 		log.Fatalf("Cannot marshal json data")
@@ -41,9 +42,9 @@ func SendMQEx(model interface{}, ch *amqp.Channel, e ExchangeName, r RoutingKey)
 		string(r),
 		false,
 		false,
-		amqp.Publishing {
+		amqp.Publishing{
 			DeliveryMode: amqp.Persistent,
-			ContentType: "application/json",
-			Body: []byte(b),
+			ContentType:  "application/json",
+			Body:         []byte(b),
 		})
 }
