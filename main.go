@@ -76,11 +76,13 @@ func main() {
 
 	log.Printf("Started grpc and http server at port: %s", port)
 
-	select {
-	case err = <-connErr:
-		log.Fatalf("Connection to rabbitmq closed: %s", err)
-		conn, _ = mq.Connect()
-	}
+	go func() {
+		select {
+		case err = <-connErr:
+			log.Fatalf("Connection to rabbitmq closed: %s", err)
+			conn, _ = mq.Connect()
+		}
+	}()
 
 	m.Serve()
 }
