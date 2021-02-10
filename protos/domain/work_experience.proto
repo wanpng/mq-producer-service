@@ -14,6 +14,7 @@ message WorkExperience {
     int32 from_year = 7;
     int32 to_month = 8;
     int32 to_year = 9;
+    int32 duration = 10;
 }
 
 message JobseekerWorkExperience {

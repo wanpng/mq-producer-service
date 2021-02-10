@@ -12,6 +12,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // JobServiceClient is the client API for JobService service.
@@ -63,7 +64,7 @@ type UnsafeJobServiceServer interface {
 }
 
 func RegisterJobServiceServer(s grpc.ServiceRegistrar, srv JobServiceServer) {
-	s.RegisterService(&_JobService_serviceDesc, srv)
+	s.RegisterService(&JobService_ServiceDesc, srv)
 }
 
 func _JobService_SendJobToMQ_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -84,7 +85,10 @@ func _JobService_SendJobToMQ_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-var _JobService_serviceDesc = grpc.ServiceDesc{
+// JobService_ServiceDesc is the grpc.ServiceDesc for JobService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var JobService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "protos.service.JobService",
 	HandlerType: (*JobServiceServer)(nil),
 	Methods: []grpc.MethodDesc{

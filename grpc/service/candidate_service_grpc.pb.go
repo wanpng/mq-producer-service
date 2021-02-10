@@ -12,6 +12,7 @@ import (
 
 // This is a compile-time assertion to ensure that this generated file
 // is compatible with the grpc package it is being compiled against.
+// Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
 // CandidateServiceClient is the client API for CandidateService service.
@@ -147,7 +148,7 @@ type UnsafeCandidateServiceServer interface {
 }
 
 func RegisterCandidateServiceServer(s grpc.ServiceRegistrar, srv CandidateServiceServer) {
-	s.RegisterService(&_CandidateService_serviceDesc, srv)
+	s.RegisterService(&CandidateService_ServiceDesc, srv)
 }
 
 func _CandidateService_SaveJobseekerProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -276,7 +277,10 @@ func _CandidateService_SaveJobseekerTraining_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
-var _CandidateService_serviceDesc = grpc.ServiceDesc{
+// CandidateService_ServiceDesc is the grpc.ServiceDesc for CandidateService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var CandidateService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "protos.service.CandidateService",
 	HandlerType: (*CandidateServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
