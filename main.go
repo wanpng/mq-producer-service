@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/streadway/amqp"
+
 	"github.com/soheilhy/cmux"
 	"github.com/wanpng/mq-producer-service/config"
 	"github.com/wanpng/mq-producer-service/data/mq"
@@ -36,6 +38,8 @@ func main() {
 	l, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 
 	conn, ch, err := mq.DeclareExchange(mq.JobseekerEx)
+
+	connErr := conn.NotifyClose(make(chan *amqp.Error))
 
 	if err != nil {
 		log.Fatalf("Unable to declare queue")
@@ -71,6 +75,12 @@ func main() {
 	go httpServer.Serve(httpL)
 
 	log.Printf("Started grpc and http server at port: %s", port)
+
+	select {
+	case err = <-connErr:
+		log.Fatalf("Connection to rabbitmq closed: %s", err)
+		conn, _ = mq.Connect()
+	}
 
 	m.Serve()
 }

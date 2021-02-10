@@ -4,13 +4,15 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 
 	"github.com/spf13/viper"
 	"github.com/streadway/amqp"
 )
 
+// DeclareQueue declare queue
 func DeclareQueue(name QueueName) (*amqp.Connection, *amqp.Channel, error) {
-	conn, err := connect()
+	conn, err := Connect()
 	failOnError(err, "Failed to connect to RabbitMQ")
 
 	ch, err := conn.Channel()
@@ -27,8 +29,9 @@ func DeclareQueue(name QueueName) (*amqp.Connection, *amqp.Channel, error) {
 	return conn, ch, err
 }
 
+// DeclareExchange declare exchange
 func DeclareExchange(exname ExchangeName) (*amqp.Connection, *amqp.Channel, error) {
-	conn, err := connect()
+	conn, err := Connect()
 	failOnError(err, "Failed to connect to RabbitMQ")
 
 	ch, err := conn.Channel()
@@ -57,7 +60,8 @@ func DeclareExchange(exname ExchangeName) (*amqp.Connection, *amqp.Channel, erro
 	return conn, ch, err
 }
 
-func connect() (*amqp.Connection, error) {
+// Connect connect to rabbitmq server
+func Connect() (*amqp.Connection, error) {
 	var username, password, host string
 
 	if username = viper.GetString("mqusername"); username == "" {
@@ -74,7 +78,11 @@ func connect() (*amqp.Connection, error) {
 
 	port := viper.GetInt("mqport")
 
-	return amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s:%d/", username, password, host, port))
+	conn, err := amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s:%d/", username, password, host, port))
+
+	time.Sleep(500 * time.Microsecond)
+
+	return conn, err
 }
 
 func failOnError(err error, msg string) {
