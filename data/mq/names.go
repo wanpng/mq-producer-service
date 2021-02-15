@@ -24,6 +24,8 @@ var (
 var (
 	// SaveJobseekerProfile save job seeker profile
 	SaveJobseekerProfile RoutingKey = "save-jobseeker-profile"
+	// SaveJobseekerProfilePhoto save job seeker profile photo
+	SaveJobseekerProfilePhoto RoutingKey = "save-jobseeker-profile-photo"
 	// UpdateJobseekerJobPreferences update job seeker job preferences
 	UpdateJobseekerJobPreferences RoutingKey = "update-job-preferences"
 	// SaveJobseekerSkills save job seeker skills
@@ -51,6 +53,7 @@ var (
 	// JobseekerRoutingKeys job seeker routing keys
 	JobseekerRoutingKeys = [...]RoutingKey{
 		SaveJobseekerProfile,
+		SaveJobseekerProfilePhoto,
 		UpdateJobseekerJobPreferences,
 		SaveJobseekerSkills,
 		UpdateJobseekerSummary,

@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CandidateServiceClient interface {
 	SaveJobseekerProfile(ctx context.Context, in *domain.JobseekerProfile, opts ...grpc.CallOption) (*domain.Error, error)
+	SaveJobseekerProfilePhoto(ctx context.Context, in *domain.JobseekerProfilePhoto, opts ...grpc.CallOption) (*domain.Error, error)
 	SaveJobseekerJobPreferences(ctx context.Context, in *domain.JobseekerJobPreferences, opts ...grpc.CallOption) (*domain.Error, error)
 	SaveJobseekerSkills(ctx context.Context, in *domain.JobseekerSkill, opts ...grpc.CallOption) (*domain.Error, error)
 	SaveJobseekerSummary(ctx context.Context, in *domain.JobseekerSummary, opts ...grpc.CallOption) (*domain.Error, error)
@@ -39,6 +40,15 @@ func NewCandidateServiceClient(cc grpc.ClientConnInterface) CandidateServiceClie
 func (c *candidateServiceClient) SaveJobseekerProfile(ctx context.Context, in *domain.JobseekerProfile, opts ...grpc.CallOption) (*domain.Error, error) {
 	out := new(domain.Error)
 	err := c.cc.Invoke(ctx, "/protos.service.CandidateService/saveJobseekerProfile", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *candidateServiceClient) SaveJobseekerProfilePhoto(ctx context.Context, in *domain.JobseekerProfilePhoto, opts ...grpc.CallOption) (*domain.Error, error) {
+	out := new(domain.Error)
+	err := c.cc.Invoke(ctx, "/protos.service.CandidateService/saveJobseekerProfilePhoto", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -104,6 +114,7 @@ func (c *candidateServiceClient) SaveJobseekerTraining(ctx context.Context, in *
 // for forward compatibility
 type CandidateServiceServer interface {
 	SaveJobseekerProfile(context.Context, *domain.JobseekerProfile) (*domain.Error, error)
+	SaveJobseekerProfilePhoto(context.Context, *domain.JobseekerProfilePhoto) (*domain.Error, error)
 	SaveJobseekerJobPreferences(context.Context, *domain.JobseekerJobPreferences) (*domain.Error, error)
 	SaveJobseekerSkills(context.Context, *domain.JobseekerSkill) (*domain.Error, error)
 	SaveJobseekerSummary(context.Context, *domain.JobseekerSummary) (*domain.Error, error)
@@ -119,6 +130,9 @@ type UnimplementedCandidateServiceServer struct {
 
 func (UnimplementedCandidateServiceServer) SaveJobseekerProfile(context.Context, *domain.JobseekerProfile) (*domain.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveJobseekerProfile not implemented")
+}
+func (UnimplementedCandidateServiceServer) SaveJobseekerProfilePhoto(context.Context, *domain.JobseekerProfilePhoto) (*domain.Error, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveJobseekerProfilePhoto not implemented")
 }
 func (UnimplementedCandidateServiceServer) SaveJobseekerJobPreferences(context.Context, *domain.JobseekerJobPreferences) (*domain.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveJobseekerJobPreferences not implemented")
@@ -165,6 +179,24 @@ func _CandidateService_SaveJobseekerProfile_Handler(srv interface{}, ctx context
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(CandidateServiceServer).SaveJobseekerProfile(ctx, req.(*domain.JobseekerProfile))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _CandidateService_SaveJobseekerProfilePhoto_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(domain.JobseekerProfilePhoto)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CandidateServiceServer).SaveJobseekerProfilePhoto(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.service.CandidateService/saveJobseekerProfilePhoto",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CandidateServiceServer).SaveJobseekerProfilePhoto(ctx, req.(*domain.JobseekerProfilePhoto))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -287,6 +319,10 @@ var CandidateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "saveJobseekerProfile",
 			Handler:    _CandidateService_SaveJobseekerProfile_Handler,
+		},
+		{
+			MethodName: "saveJobseekerProfilePhoto",
+			Handler:    _CandidateService_SaveJobseekerProfilePhoto_Handler,
 		},
 		{
 			MethodName: "saveJobseekerJobPreferences",

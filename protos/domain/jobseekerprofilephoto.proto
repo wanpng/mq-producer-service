@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package protos.domain;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
+
+message JobseekerProfilePhoto {
+    string id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    string photo_url = 4;
+}

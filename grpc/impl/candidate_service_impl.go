@@ -34,6 +34,17 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfile(context conte
 	}, nil
 }
 
+// SaveJobseekerProfilePhoto publish job seeker profile photo to message queue
+func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfilePhoto(context context.Context, in *domain.JobseekerProfilePhoto) (*domain.Error, error) {
+	log.Println("SaveJobseekerProfilePhoto called from producer")
+	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerProfilePhoto)
+
+	return &domain.Error{
+		Code:    0,
+		Message: "",
+	}, nil
+}
+
 // SaveJobseekerJobPreferences publish job seeker job preference to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerJobPreferences(context context.Context, in *domain.JobseekerJobPreferences) (*domain.Error, error) {
 	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.UpdateJobseekerJobPreferences)

@@ -5,6 +5,7 @@ package protos.service;
 option go_package = "github.com/wanpng/mq-producer-service/grpc/service";
 
 import "protos/domain/jobseekerprofile.proto";
+import "protos/domain/jobseekerprofilephoto.proto";
 import "protos/domain/jobseekerjobpreferences.proto";
 import "protos/domain/skill.proto";
 import "protos/domain/jobseekersummary.proto";
@@ -15,6 +16,7 @@ import "protos/domain/error.proto";
 
 service CandidateService {
     rpc saveJobseekerProfile(protos.domain.JobseekerProfile) returns (protos.domain.Error);
+    rpc saveJobseekerProfilePhoto(protos.domain.JobseekerProfilePhoto) returns (protos.domain.Error);
     rpc saveJobseekerJobPreferences(protos.domain.JobseekerJobPreferences) returns (protos.domain.Error);
     rpc saveJobseekerSkills(protos.domain.JobseekerSkill) returns (protos.domain.Error);
     rpc saveJobseekerSummary(protos.domain.JobseekerSummary) returns (protos.domain.Error);
