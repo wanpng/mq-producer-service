@@ -54,7 +54,7 @@ func GetConnection(name string) *Connection {
 	return connectionPool[name]
 }
 
-func (c *Connection) Connect() error {
+func (c *Connection) ConnectMQ() error {
 	var err error
 
 	username := viper.GetString("mqusername")
