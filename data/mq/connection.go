@@ -108,7 +108,7 @@ func (c *Connection) BindQueue() error {
 }
 
 func (c *Connection) Reconnect() error {
-	if err := c.Connect(); err != nil {
+	if err := c.ConnectMQ(); err != nil {
 		return err
 	}
 	if err := c.BindQueue(); err != nil {
