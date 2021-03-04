@@ -28,12 +28,15 @@ func NewCandidateServiceServerImpl(ch *amqp.Channel) CandidateServiceServerImpl 
 // SaveJobseekerProfile publish job seeker profile to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfile(context context.Context, in *domain.JobseekerProfile) (*domain.Error, error) {
 	log.Println("SaveJobseekerProfile called from producer")
-	// mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerProfile)
+
 	b, _ := json.MarshalIndent(&in, "", "\t")
 	m := mq.Message{
-		Queue:       mq.SaveJobseekerProfileQueue,
-		Body:        mq.MessageBody{Data: b, Type: ""},
-		ContentType: "application/json",
+		Queue:         mq.SaveJobseekerProfileQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
 	}
 
 	if err := serviceImpl.Connection.Publish(m); err != nil {
@@ -49,7 +52,20 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfile(context conte
 // SaveJobseekerProfilePhoto publish job seeker profile photo to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfilePhoto(context context.Context, in *domain.JobseekerProfilePhoto) (*domain.Error, error) {
 	log.Println("SaveJobseekerProfilePhoto called from producer")
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerProfilePhoto)
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.SaveJobseekerProfilePhotoQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,
@@ -59,7 +75,21 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfilePhoto(context 
 
 // SaveJobseekerJobPreferences publish job seeker job preference to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerJobPreferences(context context.Context, in *domain.JobseekerJobPreferences) (*domain.Error, error) {
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.UpdateJobseekerJobPreferences)
+	log.Println("SaveJobseekerJobPreferences called from producer")
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.UpdateJobseekerJobPreferencesQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,
@@ -69,7 +99,21 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerJobPreferences(contex
 
 // SaveJobseekerSkills publish job seeker skills to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerSkills(context context.Context, in *domain.JobseekerSkill) (*domain.Error, error) {
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerSkills)
+	log.Println("SaveJobseekerSkills called from producer")
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.SaveJobseekerSkillsQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,
@@ -79,7 +123,21 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerSkills(context contex
 
 // SaveJobseekerSummary publish job seeker summary to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerSummary(context context.Context, in *domain.JobseekerSummary) (*domain.Error, error) {
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.UpdateJobseekerSummary)
+	log.Println("SaveJobseekerSummary called from producer")
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.UpdateJobseekerSummaryQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,
@@ -89,7 +147,21 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerSummary(context conte
 
 // SaveJobseekerEducation publish job seeker education to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerEducation(context context.Context, in *domain.JobseekerEducation) (*domain.Error, error) {
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerEducation)
+	log.Println("SaveJobseekerEducation called from producer")
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.SaveJobseekerEducationQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,
@@ -99,7 +171,21 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerEducation(context con
 
 // DeleteJobseekerEducation publish delete job seeker education to message queue
 func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerEducation(context context.Context, in *domain.JobseekerEducation) (*domain.Error, error) {
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.DeleteJobseekerEducation)
+	log.Println("DeleteJobseekerEducation called from producer")
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.SaveJobseekerEducationQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,
@@ -109,7 +195,21 @@ func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerEducation(context c
 
 // SaveJobseekerWorkExperience publish work experience to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerWorkExperience(context context.Context, in *domain.JobseekerWorkExperience) (*domain.Error, error) {
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerWorkExperience)
+	log.Println("SaveJobseekerWorkExperience called from producer")
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.SaveJobseekerWorkExperienceQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,
@@ -119,7 +219,21 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerWorkExperience(contex
 
 // DeleteJobseekerWorkExperience publish delete job seeker workexperience to message queue
 func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerWorkExperience(context context.Context, in *domain.JobseekerWorkExperience) (*domain.Error, error) {
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.DeleteJobseekerWorkExperience)
+	log.Println("DeleteJobseekerWorkExperience called from producer")
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.SaveJobseekerWorkExperienceQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,
@@ -129,7 +243,21 @@ func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerWorkExperience(cont
 
 // SaveJobseekerTraining publish job seeker training to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerTraining(context context.Context, in *domain.JobseekerTraining) (*domain.Error, error) {
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerTraining)
+	log.Println("SaveJobseekerTraining called from producer")
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.SaveJobseekerTrainingQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,
@@ -139,7 +267,21 @@ func (serviceImpl CandidateServiceServerImpl) SaveJobseekerTraining(context cont
 
 // DeleteJobseekerTraining publish delete job seeker training to message queue
 func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerTraining(context context.Context, in *domain.JobseekerTraining) (*domain.Error, error) {
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.DeleteJobseekerTraining)
+	log.Println("DeleteJobseekerTraining called from producer")
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.SaveJobseekerTrainingQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,

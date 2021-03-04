@@ -1,11 +1,17 @@
 package mq
 
-import "github.com/streadway/amqp"
+import (
+	"fmt"
+	"os"
+
+	"github.com/streadway/amqp"
+)
 
 func (c *Connection) Consume() (map[string]<-chan amqp.Delivery, error) {
 	m := make(map[string]<-chan amqp.Delivery)
 	for _, q := range c.queues {
-		deliveries, err := c.channel.Consume(q, "", false, false, false, false, nil)
+		queueName := fmt.Sprintf("%s:%s", q, os.Getenv("ENV"))
+		deliveries, err := c.channel.Consume(queueName, "", false, false, false, false, nil)
 
 		if err != nil {
 			return nil, err

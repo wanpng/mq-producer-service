@@ -2,6 +2,7 @@ package mq
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/streadway/amqp"
 )
@@ -23,7 +24,9 @@ func (c *Connection) Publish(m Message) error {
 		ReplyTo:       m.ReplyTo,
 	}
 
-	if err := c.channel.Publish(c.exchange, m.Queue, false, false, p); err != nil {
+	queueName := fmt.Sprintf("%s:%s", m.Queue, os.Getenv("ENV"))
+
+	if err := c.channel.Publish(c.exchange, queueName, false, false, p); err != nil {
 		return fmt.Errorf("Error in publishing: %s", err)
 	}
 

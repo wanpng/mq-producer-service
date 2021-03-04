@@ -103,11 +103,12 @@ func (c *Connection) Connect() error {
 
 func (c *Connection) BindQueue() error {
 	for _, q := range c.queues {
-		if _, err := c.channel.QueueDeclare(q, true, false, false, false, nil); err != nil {
+		queueName := fmt.Sprintf("%s:%s", q, os.Getenv("ENV"))
+		if _, err := c.channel.QueueDeclare(queueName, true, false, false, false, nil); err != nil {
 			return fmt.Errorf("Error in declaring queue %s: %s", q, err)
 		}
 
-		if err := c.channel.QueueBind(q, "my_routing_key", c.exchange, false, nil); err != nil {
+		if err := c.channel.QueueBind(queueName, queueName, c.exchange, false, nil); err != nil {
 			return fmt.Errorf("Error in binding queue %s: %s", q, err)
 		}
 	}
