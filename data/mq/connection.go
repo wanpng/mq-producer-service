@@ -62,11 +62,9 @@ func (c *Connection) Connect() error {
 	if username = viper.GetString("mqusername"); username == "" {
 		username = os.Getenv("mqusername")
 	}
-
 	if password = viper.GetString("mqpassword"); password == "" {
 		password = os.Getenv("mqpassword")
 	}
-
 	if host = viper.GetString("mqhost"); host == "" {
 		host = os.Getenv("mqhost")
 	}
