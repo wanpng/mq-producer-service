@@ -12,7 +12,8 @@ import (
 
 // CandidateServiceServerImpl candidate service server type
 type CandidateServiceServerImpl struct {
-	Channel *amqp.Channel
+	Channel    *amqp.Channel
+	Connection *mq.Connection
 	service.CandidateServiceServer
 }
 
@@ -26,7 +27,7 @@ func NewCandidateServiceServerImpl(ch *amqp.Channel) CandidateServiceServerImpl 
 // SaveJobseekerProfile publish job seeker profile to message queue
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfile(context context.Context, in *domain.JobseekerProfile) (*domain.Error, error) {
 	log.Println("SaveJobseekerProfile called from producer")
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerProfile)
+	// mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerProfile)
 
 	return &domain.Error{
 		Code:    0,

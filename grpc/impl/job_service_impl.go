@@ -12,7 +12,8 @@ import (
 
 // JobServiceServerImpl job service server implementation
 type JobServiceServerImpl struct {
-	Channel *amqp.Channel
+	Channel    *amqp.Channel
+	Connection *mq.Connection
 	service.JobServiceServer
 }
 
