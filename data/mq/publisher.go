@@ -29,6 +29,5 @@ func (c *Connection) Publish(m Message) error {
 	if err := c.channel.Publish(c.exchange, queueName, false, false, p); err != nil {
 		return fmt.Errorf("Error in publishing: %s", err)
 	}
-
 	return nil
 }
