@@ -70,3 +70,19 @@ var (
 		SaveJobInformation,
 	}
 )
+
+var (
+	SaveJobseekerProfileQueue          string = "save-jobseeker-profile-queue"
+	SaveJobseekerProfilePhotoQueue     string = "save-jobseeker-profile-photo-queue"
+	UpdateJobseekerJobPreferencesQueue string = "update-job-preferences-queue"
+	SaveJobseekerSkillsQueue           string = "save-jobseeker-skills-queue"
+	UpdateJobseekerSummaryQueue        string = "update-jobseeker-summary-queue"
+	SaveJobseekerEducationQueue        string = "save-jobseeker-education-queue"
+	DeleteJobseekerEducationQueue      string = "delete-jobseeker-education-queue"
+	SaveJobseekerWorkExperienceQueue   string = "save-jobseeker-work-experience-queue"
+	DeleteJobseekerWorkExperienceQueue string = "delete-jobseeker-work-experience-queue"
+	SaveJobseekerTrainingQueue         string = "save-jobseeker-training-queue"
+	DeleteJobseekerTrainingQueue       string = "delete-jobseeker-training-queue"
+
+	SaveJobInformationQueue string = "save-job-information-queue"
+)
