@@ -24,4 +24,11 @@ message Job {
     int32 pay_period_id = 17;
     string pay_period = 18;
     int32 minimum_rate = 19;
+    protos.domain.Employer employer_company = 20;
+}
+
+message Employer {
+    string employer_id = 1;
+    string employer_name= 2;
+    string employer_photo_url = 3;
 }
