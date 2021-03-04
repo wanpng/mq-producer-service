@@ -3,6 +3,7 @@ package mq
 import (
 	"errors"
 	"fmt"
+	"os"
 
 	"github.com/spf13/viper"
 	"github.com/streadway/amqp"
@@ -56,10 +57,19 @@ func GetConnection(name string) *Connection {
 
 func (c *Connection) Connect() error {
 	var err error
+	var username, password, host string
 
-	username := viper.GetString("mqusername")
-	password := viper.GetString("mqpassword")
-	host := viper.GetString("mqhost")
+	if username = viper.GetString("mqusername"); username == "" {
+		username = os.Getenv("mqusername")
+	}
+
+	if password = viper.GetString("mqpassword"); password == "" {
+		password = os.Getenv("mqpassword")
+	}
+
+	if host = viper.GetString("mqhost"); host == "" {
+		host = os.Getenv("mqhost")
+	}
 	port := viper.GetInt("mqport")
 
 	c.conn, err = amqp.Dial(fmt.Sprintf("amqp://%s:%s@%s:%d/", username, password, host, port))

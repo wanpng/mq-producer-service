@@ -2,6 +2,7 @@ package impl
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 
 	"github.com/streadway/amqp"
@@ -28,6 +29,16 @@ func NewCandidateServiceServerImpl(ch *amqp.Channel) CandidateServiceServerImpl 
 func (serviceImpl CandidateServiceServerImpl) SaveJobseekerProfile(context context.Context, in *domain.JobseekerProfile) (*domain.Error, error) {
 	log.Println("SaveJobseekerProfile called from producer")
 	// mq.SendMQEx(in, serviceImpl.Channel, mq.JobseekerEx, mq.SaveJobseekerProfile)
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:       mq.SaveJobseekerProfileQueue,
+		Body:        mq.MessageBody{Data: b, Type: ""},
+		ContentType: "application/json",
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,

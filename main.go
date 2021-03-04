@@ -13,7 +13,6 @@ import (
 	"github.com/wanpng/mq-producer-service/grpc/impl"
 	"github.com/wanpng/mq-producer-service/grpc/service"
 	"google.golang.org/grpc"
-	"google.golang.org/protobuf/internal/impl"
 )
 
 func init() {
