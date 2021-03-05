@@ -2,6 +2,7 @@ package impl
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 
 	"github.com/streadway/amqp"
@@ -26,8 +27,20 @@ func NewJobServiceServerImpl(ch *amqp.Channel) JobServiceServerImpl {
 
 // SendJobToMQ publish job to message queue
 func (serviceImpl JobServiceServerImpl) SendJobToMQ(context context.Context, in *domain.Job) (*domain.Error, error) {
-	log.Printf("SendJobToMQ called")
-	mq.SendMQEx(in, serviceImpl.Channel, mq.JobsEx, mq.SaveJobInformation)
+	log.Println("SendJobToMQ called from producer")
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.SaveJobInformationQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
 
 	return &domain.Error{
 		Code:    0,
