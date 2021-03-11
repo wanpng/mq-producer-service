@@ -39,20 +39,6 @@ func main() {
 		log.Fatalf("Listen error in %s", err)
 	}
 
-	// conn, ch, err := mq.DeclareExchange(mq.JobseekerEx)
-
-	// connErr := conn.NotifyClose(make(chan *amqp.Error))
-
-	// if err != nil {
-	// 	log.Fatalf("Unable to declare queue")
-	// }
-
-	// defer conn.Close()
-	// defer ch.Close()
-
-	// jobServiceImpl := impl.NewJobServiceServerImpl(ch)
-	// candidateServiceImpl := impl.NewCandidateServiceServerImpl(ch)
-
 	conn := mq.NewConnection("my-producer", "my-exchange",
 		mq.SaveJobseekerProfileQueue,
 		mq.SaveJobseekerProfilePhotoQueue,
@@ -98,7 +84,6 @@ func main() {
 
 	m := cmux.New(l)
 
-	// grpcL := m.Match(cmux.HTTP2HeaderField("content-type", "application/grpc"))
 	httpL := m.Match(cmux.HTTP1Fast())
 	grpcL := m.Match(cmux.Any())
 
@@ -106,14 +91,6 @@ func main() {
 	go httpServer.Serve(httpL)
 
 	log.Printf("Started grpc and http server at port: %s", port)
-
-	// go func() {
-	// 	select {
-	// 	case err = <-connErr:
-	// 		log.Fatalf("Connection to rabbitmq closed: %s", err)
-	// 		conn, _ = mq.Connect()
-	// 	}
-	// }()
 
 	m.Serve()
 }
