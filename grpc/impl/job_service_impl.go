@@ -48,12 +48,12 @@ func (serviceImpl JobServiceServerImpl) SendJobToMQ(context context.Context, in 
 	}, nil
 }
 
-// SendJobToMQ publish job to message queue
+// DeleteJobPost delete job to message queue
 func (serviceImpl JobServiceServerImpl) DeleteJobPost(context context.Context, in *domain.DeleteJob) (*domain.Error, error) {
 	log.Println("DeleteJobPost called from producer")
 	b, _ := json.MarshalIndent(&in, "", "\t")
 	m := mq.Message{
-		Queue:         mq.DeleteJoPostQueue,
+		Queue:         mq.DeleteJobPostQueue,
 		ReplyTo:       "",
 		ContentType:   "application/json",
 		CorrelationID: "",
