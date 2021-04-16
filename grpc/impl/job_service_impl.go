@@ -53,7 +53,7 @@ func (serviceImpl JobServiceServerImpl) DeleteJobPost(context context.Context, i
 	log.Println("DeleteJobPost called from producer")
 	b, _ := json.MarshalIndent(&in, "", "\t")
 	m := mq.Message{
-		Queue:         mq.DeleteJoPostQueue,
+		Queue:         mq.DeleteJobPostQueue,
 		ReplyTo:       "",
 		ContentType:   "application/json",
 		CorrelationID: "",
