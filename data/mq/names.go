@@ -47,6 +47,8 @@ var (
 
 	// SaveJobInformation save job information
 	SaveJobInformation RoutingKey = "save-job-information"
+	// DeleteJobPost delete job post
+	DeleteJobPost RoutingKey = "delete-job-post"
 )
 
 var (
@@ -68,6 +70,7 @@ var (
 	// JobsRoutingKeys jobs routing keys
 	JobsRoutingKeys = [...]RoutingKey{
 		SaveJobInformation,
+		DeleteJobPost,
 	}
 )
 
@@ -85,4 +88,5 @@ var (
 	DeleteJobseekerTrainingQueue       string = "delete-jobseeker-training-queue"
 
 	SaveJobInformationQueue string = "save-job-information-queue"
+	DeleteJobPostQueue       string = "delete-job-post-queue"
 )

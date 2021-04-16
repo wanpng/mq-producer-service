@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type JobServiceClient interface {
 	SendJobToMQ(ctx context.Context, in *domain.Job, opts ...grpc.CallOption) (*domain.Error, error)
+	DeleteJobPost(ctx context.Context, in *domain.DeleteJob, opts ...grpc.CallOption) (*domain.Error, error)
 }
 
 type jobServiceClient struct {
@@ -39,11 +40,21 @@ func (c *jobServiceClient) SendJobToMQ(ctx context.Context, in *domain.Job, opts
 	return out, nil
 }
 
+func (c *jobServiceClient) DeleteJobPost(ctx context.Context, in *domain.DeleteJob, opts ...grpc.CallOption) (*domain.Error, error) {
+	out := new(domain.Error)
+	err := c.cc.Invoke(ctx, "/protos.service.JobService/deleteJobPost", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JobServiceServer is the server API for JobService service.
 // All implementations must embed UnimplementedJobServiceServer
 // for forward compatibility
 type JobServiceServer interface {
 	SendJobToMQ(context.Context, *domain.Job) (*domain.Error, error)
+	DeleteJobPost(context.Context, *domain.DeleteJob) (*domain.Error, error)
 	mustEmbedUnimplementedJobServiceServer()
 }
 
@@ -53,6 +64,9 @@ type UnimplementedJobServiceServer struct {
 
 func (UnimplementedJobServiceServer) SendJobToMQ(context.Context, *domain.Job) (*domain.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendJobToMQ not implemented")
+}
+func (UnimplementedJobServiceServer) DeleteJobPost(context.Context, *domain.DeleteJob) (*domain.Error, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteJobPost not implemented")
 }
 func (UnimplementedJobServiceServer) mustEmbedUnimplementedJobServiceServer() {}
 
@@ -85,6 +99,24 @@ func _JobService_SendJobToMQ_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JobService_DeleteJobPost_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(domain.DeleteJob)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobServiceServer).DeleteJobPost(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.service.JobService/deleteJobPost",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobServiceServer).DeleteJobPost(ctx, req.(*domain.DeleteJob))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // JobService_ServiceDesc is the grpc.ServiceDesc for JobService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -95,6 +127,10 @@ var JobService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "sendJobToMQ",
 			Handler:    _JobService_SendJobToMQ_Handler,
+		},
+		{
+			MethodName: "deleteJobPost",
+			Handler:    _JobService_DeleteJobPost_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

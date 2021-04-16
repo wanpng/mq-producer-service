@@ -48,4 +48,27 @@ func (serviceImpl JobServiceServerImpl) SendJobToMQ(context context.Context, in 
 	}, nil
 }
 
+// DeleteJobPost delete job to message queue
+func (serviceImpl JobServiceServerImpl) DeleteJobPost(context context.Context, in *domain.DeleteJob) (*domain.Error, error) {
+	log.Println("DeleteJobPost called from producer")
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.DeleteJobPostQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
+
+	return &domain.Error{
+		Code:    0,
+		Message: "",
+	}, nil
+}
+
 func (JobServiceServerImpl) mustEmbedUnimplementedJobServiceServer() {}

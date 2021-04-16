@@ -51,7 +51,9 @@ func main() {
 		mq.DeleteJobseekerWorkExperienceQueue,
 		mq.SaveJobseekerTrainingQueue,
 		mq.DeleteJobseekerTrainingQueue,
-		mq.SaveJobInformationQueue)
+		mq.SaveJobInformationQueue,
+		mq.DeleteJobPostQueue,
+	)
 
 	if err := conn.Connect(); err != nil {
 		panic(err)
