@@ -36,3 +36,8 @@ message Employer {
 message DeleteJob {
     string id = 1;
 }
+
+message JobCompanyProfile {
+    string id = 1;
+    protos.domain.Employer employer_company = 2;
+}
