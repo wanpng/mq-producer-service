@@ -1,9 +1,0 @@
-syntax = "proto3";
-
-package protos.domain;
-
-option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
-
-message Employer {
-    string employer_id= 1;
-}
