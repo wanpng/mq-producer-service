@@ -10,5 +10,5 @@ import "protos/domain/error.proto";
 service JobService {
     rpc sendJobToMQ(protos.domain.Job) returns (protos.domain.Error);
     rpc deleteJobPost(protos.domain.DeleteJob) returns (protos.domain.Error);
-    rpc updateJobCompanyProfile(protos.domain.JobCompanyProfile) returns (protos.domain.Error);
+    rpc updateJobCompanyProfile(protos.domain.UpdateJobCompanyProfile) returns (protos.domain.Error);
 }

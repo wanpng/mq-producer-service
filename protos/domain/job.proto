@@ -37,7 +37,7 @@ message DeleteJob {
     string id = 1;
 }
 
-message JobCompanyProfile {
+message UpdateJobCompanyProfile {
     repeated string job_ids = 1;
     protos.domain.Employer employer_company = 2;
 }
