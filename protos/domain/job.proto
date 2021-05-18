@@ -33,6 +33,7 @@ message Employer {
     string employer_photo_url = 3;
 }
 
-message DeleteJob {
-    string id = 1;
+message UpdateJobCompanyProfile {
+    repeated string job_ids = 1;
+    protos.domain.Employer employer_company = 2;
 }

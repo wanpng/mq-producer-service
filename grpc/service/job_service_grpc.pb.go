@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 type JobServiceClient interface {
 	SendJobToMQ(ctx context.Context, in *domain.Job, opts ...grpc.CallOption) (*domain.Error, error)
 	DeleteJobPost(ctx context.Context, in *domain.DeleteJob, opts ...grpc.CallOption) (*domain.Error, error)
+	UpdateJobCompanyProfile(ctx context.Context, in *domain.UpdateJobCompanyProfile, opts ...grpc.CallOption) (*domain.Error, error)
 }
 
 type jobServiceClient struct {
@@ -49,12 +50,22 @@ func (c *jobServiceClient) DeleteJobPost(ctx context.Context, in *domain.DeleteJ
 	return out, nil
 }
 
+func (c *jobServiceClient) UpdateJobCompanyProfile(ctx context.Context, in *domain.UpdateJobCompanyProfile, opts ...grpc.CallOption) (*domain.Error, error) {
+	out := new(domain.Error)
+	err := c.cc.Invoke(ctx, "/protos.service.JobService/updateJobCompanyProfile", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // JobServiceServer is the server API for JobService service.
 // All implementations must embed UnimplementedJobServiceServer
 // for forward compatibility
 type JobServiceServer interface {
 	SendJobToMQ(context.Context, *domain.Job) (*domain.Error, error)
 	DeleteJobPost(context.Context, *domain.DeleteJob) (*domain.Error, error)
+	UpdateJobCompanyProfile(context.Context, *domain.UpdateJobCompanyProfile) (*domain.Error, error)
 	mustEmbedUnimplementedJobServiceServer()
 }
 
@@ -67,6 +78,9 @@ func (UnimplementedJobServiceServer) SendJobToMQ(context.Context, *domain.Job) (
 }
 func (UnimplementedJobServiceServer) DeleteJobPost(context.Context, *domain.DeleteJob) (*domain.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteJobPost not implemented")
+}
+func (UnimplementedJobServiceServer) UpdateJobCompanyProfile(context.Context, *domain.UpdateJobCompanyProfile) (*domain.Error, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateJobCompanyProfile not implemented")
 }
 func (UnimplementedJobServiceServer) mustEmbedUnimplementedJobServiceServer() {}
 
@@ -117,6 +131,24 @@ func _JobService_DeleteJobPost_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _JobService_UpdateJobCompanyProfile_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(domain.UpdateJobCompanyProfile)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobServiceServer).UpdateJobCompanyProfile(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.service.JobService/updateJobCompanyProfile",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobServiceServer).UpdateJobCompanyProfile(ctx, req.(*domain.UpdateJobCompanyProfile))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // JobService_ServiceDesc is the grpc.ServiceDesc for JobService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -131,6 +163,10 @@ var JobService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "deleteJobPost",
 			Handler:    _JobService_DeleteJobPost_Handler,
+		},
+		{
+			MethodName: "updateJobCompanyProfile",
+			Handler:    _JobService_UpdateJobCompanyProfile_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
