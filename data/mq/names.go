@@ -49,6 +49,8 @@ var (
 	SaveJobInformation RoutingKey = "save-job-information-1"
 	// DeleteJobPost delete job post
 	DeleteJobPost RoutingKey = "delete-job-post-1"
+	// UpdateJobCompanyProfile update job company profile information
+	UpdateJobCompanyProfile RoutingKey = "update-job-company-profile-1"
 )
 
 var (
@@ -71,6 +73,7 @@ var (
 	JobsRoutingKeys = [...]RoutingKey{
 		SaveJobInformation,
 		DeleteJobPost,
+		UpdateJobCompanyProfile,
 	}
 )
 
@@ -87,6 +90,7 @@ var (
 	SaveJobseekerTrainingQueue         string = "save-jobseeker-training-queue-1"
 	DeleteJobseekerTrainingQueue       string = "delete-jobseeker-training-queue-1"
 
-	SaveJobInformationQueue string = "save-job-information-queue-1"
-	DeleteJobPostQueue      string = "delete-job-post-queue-1"
+	SaveJobInformationQueue      string = "save-job-information-queue-1"
+	DeleteJobPostQueue           string = "delete-job-post-queue-1"
+	UpdateJobCompanyProfileQueue string = "update-job-company-profile-queue-1"
 )
