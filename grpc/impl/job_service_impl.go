@@ -71,7 +71,7 @@ func (serviceImpl JobServiceServerImpl) DeleteJobPost(context context.Context, i
 	}, nil
 }
 
-// UpdateJobCompanyProfile delete job to message queue
+// UpdateJobCompanyProfile update job company profile to message queue
 func (serviceImpl JobServiceServerImpl) UpdateJobCompanyProfile(context context.Context, in *domain.UpdateJobCompanyProfile) (*domain.Error, error) {
 	log.Println("UpdateJobCompanyProfile called from producer")
 	b, _ := json.MarshalIndent(&in, "", "\t")
