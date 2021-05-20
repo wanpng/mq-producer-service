@@ -37,13 +37,9 @@ message Employer {
     string employer_photo_url = 3;
 }
 
-message JobIds {
-    string job_id = 1;
-}
-
 message UpdateJobCompanyProfile {
-    string employer_id = 1;
-    string company_name = 2;
-    string photo = 3;
-    repeated JobIds jobs = 4;
+    string job_id = 1;
+    string employer_id = 2;
+    string company_name = 3;
+    string photo = 4;
 }
