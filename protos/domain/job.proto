@@ -27,17 +27,23 @@ message Job {
     protos.domain.Employer employer_company = 20;
 }
 
+message DeleteJob {
+    string id = 1;
+}
+
 message Employer {
     string employer_id = 1;
     string employer_name= 2;
     string employer_photo_url = 3;
 }
 
-message DeleteJob {
-    string id = 1;
+message JobIds {
+    string job_id = 1;
 }
 
 message UpdateJobCompanyProfile {
-    repeated string job_ids = 1;
-    protos.domain.Employer employer_company = 2;
+    string employer_id = 1;
+    string company_name = 2;
+    string photo = 3;
+    repeated JobIds jobs = 4;
 }
