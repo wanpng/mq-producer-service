@@ -71,4 +71,27 @@ func (serviceImpl JobServiceServerImpl) DeleteJobPost(context context.Context, i
 	}, nil
 }
 
+// UpdateJobCompanyProfile update job company profile to message queue
+func (serviceImpl JobServiceServerImpl) UpdateJobCompanyProfile(context context.Context, in *domain.UpdateJobCompanyProfile) (*domain.Error, error) {
+	log.Println("UpdateJobCompanyProfile called from producer")
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.UpdateJobCompanyProfileQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
+
+	return &domain.Error{
+		Code:    0,
+		Message: "",
+	}, nil
+}
+
 func (JobServiceServerImpl) mustEmbedUnimplementedJobServiceServer() {}
