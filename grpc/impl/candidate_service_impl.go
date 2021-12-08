@@ -290,7 +290,7 @@ func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerTraining(context co
 }
 
 // SaveJobseekerAffiliation publish job seeker affiliation to message queue
-func (serviceImpl CandidateServiceServerImpl) SaveJobseekerAffiliation(context context.Context, in *domain.JobseekerTraining) (*domain.Error, error) {
+func (serviceImpl CandidateServiceServerImpl) SaveJobseekerAffiliation(context context.Context, in *domain.JobseekerAffiliation) (*domain.Error, error) {
 	log.Println("SaveJobseekerAffiliation called from producer")
 
 	b, _ := json.MarshalIndent(&in, "", "\t")

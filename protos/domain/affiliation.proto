@@ -4,7 +4,7 @@ package protos.domain;
 
 option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
 
-message Affiliations {
+message Affiliation {
     string affiliation_id = 1;
     string organization = 2;
     string role = 3;
@@ -14,5 +14,5 @@ message Affiliations {
 
 message JobseekerAffiliation {
     string id = 1;
-    repeated Affiliations affiliations = 2;
+    repeated Affiliation affiliations = 2;
 }
