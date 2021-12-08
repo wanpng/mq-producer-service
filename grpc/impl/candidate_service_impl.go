@@ -289,4 +289,28 @@ func (serviceImpl CandidateServiceServerImpl) DeleteJobseekerTraining(context co
 	}, nil
 }
 
+// SaveJobseekerAffiliation publish job seeker affiliation to message queue
+func (serviceImpl CandidateServiceServerImpl) SaveJobseekerAffiliation(context context.Context, in *domain.JobseekerTraining) (*domain.Error, error) {
+	log.Println("SaveJobseekerAffiliation called from producer")
+
+	b, _ := json.MarshalIndent(&in, "", "\t")
+	m := mq.Message{
+		Queue:         mq.SaveJobseekerAffiliationQueue,
+		ReplyTo:       "",
+		ContentType:   "application/json",
+		CorrelationID: "",
+		Priority:      1,
+		Body:          mq.MessageBody{Data: b, Type: ""},
+	}
+
+	if err := serviceImpl.Connection.Publish(m); err != nil {
+		log.Fatalf("Publishing error %s", err)
+	}
+
+	return &domain.Error{
+		Code:    0,
+		Message: "",
+	}, nil
+}
+
 func (CandidateServiceServerImpl) mustEmbedUnimplementedCandidateServiceServer() {}
