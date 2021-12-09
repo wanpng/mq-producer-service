@@ -51,6 +51,7 @@ func main() {
 		mq.DeleteJobseekerWorkExperienceQueue,
 		mq.SaveJobseekerTrainingQueue,
 		mq.DeleteJobseekerTrainingQueue,
+		mq.SaveJobseekerAffiliationQueue,
 		mq.SaveJobInformationQueue,
 		mq.DeleteJobPostQueue,
 		mq.UpdateJobCompanyProfileQueue,
