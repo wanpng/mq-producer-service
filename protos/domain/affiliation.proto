@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package protos.domain;
+
+option go_package = "github.com/wanpng/mq-producer-service/grpc/domain";
+
+message Affiliation {
+    string affiliation_id = 1;
+    string organization = 2;
+    string role = 3;
+    string location = 4;
+    string description = 5;
+}
+
+message JobseekerAffiliation {
+    string id = 1;
+    repeated Affiliation affiliations = 2;
+}

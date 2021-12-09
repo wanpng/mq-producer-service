@@ -27,6 +27,7 @@ type CandidateServiceClient interface {
 	SaveJobseekerEducation(ctx context.Context, in *domain.JobseekerEducation, opts ...grpc.CallOption) (*domain.Error, error)
 	SaveJobseekerWorkExperience(ctx context.Context, in *domain.JobseekerWorkExperience, opts ...grpc.CallOption) (*domain.Error, error)
 	SaveJobseekerTraining(ctx context.Context, in *domain.JobseekerTraining, opts ...grpc.CallOption) (*domain.Error, error)
+	SaveJobseekerAffiliation(ctx context.Context, in *domain.JobseekerAffiliation, opts ...grpc.CallOption) (*domain.Error, error)
 }
 
 type candidateServiceClient struct {
@@ -109,6 +110,15 @@ func (c *candidateServiceClient) SaveJobseekerTraining(ctx context.Context, in *
 	return out, nil
 }
 
+func (c *candidateServiceClient) SaveJobseekerAffiliation(ctx context.Context, in *domain.JobseekerAffiliation, opts ...grpc.CallOption) (*domain.Error, error) {
+	out := new(domain.Error)
+	err := c.cc.Invoke(ctx, "/protos.service.CandidateService/saveJobseekerAffiliation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CandidateServiceServer is the server API for CandidateService service.
 // All implementations must embed UnimplementedCandidateServiceServer
 // for forward compatibility
@@ -121,6 +131,7 @@ type CandidateServiceServer interface {
 	SaveJobseekerEducation(context.Context, *domain.JobseekerEducation) (*domain.Error, error)
 	SaveJobseekerWorkExperience(context.Context, *domain.JobseekerWorkExperience) (*domain.Error, error)
 	SaveJobseekerTraining(context.Context, *domain.JobseekerTraining) (*domain.Error, error)
+	SaveJobseekerAffiliation(context.Context, *domain.JobseekerAffiliation) (*domain.Error, error)
 	mustEmbedUnimplementedCandidateServiceServer()
 }
 
@@ -151,6 +162,9 @@ func (UnimplementedCandidateServiceServer) SaveJobseekerWorkExperience(context.C
 }
 func (UnimplementedCandidateServiceServer) SaveJobseekerTraining(context.Context, *domain.JobseekerTraining) (*domain.Error, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveJobseekerTraining not implemented")
+}
+func (UnimplementedCandidateServiceServer) SaveJobseekerAffiliation(context.Context, *domain.JobseekerAffiliation) (*domain.Error, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveJobseekerAffiliation not implemented")
 }
 func (UnimplementedCandidateServiceServer) mustEmbedUnimplementedCandidateServiceServer() {}
 
@@ -309,6 +323,24 @@ func _CandidateService_SaveJobseekerTraining_Handler(srv interface{}, ctx contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CandidateService_SaveJobseekerAffiliation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(domain.JobseekerAffiliation)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CandidateServiceServer).SaveJobseekerAffiliation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/protos.service.CandidateService/saveJobseekerAffiliation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CandidateServiceServer).SaveJobseekerAffiliation(ctx, req.(*domain.JobseekerAffiliation))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CandidateService_ServiceDesc is the grpc.ServiceDesc for CandidateService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -347,6 +379,10 @@ var CandidateService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "saveJobseekerTraining",
 			Handler:    _CandidateService_SaveJobseekerTraining_Handler,
+		},
+		{
+			MethodName: "saveJobseekerAffiliation",
+			Handler:    _CandidateService_SaveJobseekerAffiliation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

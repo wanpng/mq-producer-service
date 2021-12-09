@@ -89,6 +89,7 @@ var (
 	DeleteJobseekerWorkExperienceQueue string = "delete-jobseeker-work-experience-queue-1"
 	SaveJobseekerTrainingQueue         string = "save-jobseeker-training-queue-1"
 	DeleteJobseekerTrainingQueue       string = "delete-jobseeker-training-queue-1"
+	SaveJobseekerAffiliationQueue      string = "save-jobseeker-affiliation-queue-1"
 
 	SaveJobInformationQueue      string = "save-job-information-queue-1"
 	DeleteJobPostQueue           string = "delete-job-post-queue-1"
