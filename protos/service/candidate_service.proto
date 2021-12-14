@@ -12,6 +12,7 @@ import "protos/domain/jobseekersummary.proto";
 import "protos/domain/education.proto";
 import "protos/domain/work_experience.proto";
 import "protos/domain/training.proto";
+import "protos/domain/affiliation.proto";
 import "protos/domain/error.proto";
 
 service CandidateService {
@@ -23,4 +24,5 @@ service CandidateService {
     rpc saveJobseekerEducation(protos.domain.JobseekerEducation) returns (protos.domain.Error);
     rpc saveJobseekerWorkExperience(protos.domain.JobseekerWorkExperience) returns (protos.domain.Error);
     rpc saveJobseekerTraining(protos.domain.JobseekerTraining) returns (protos.domain.Error);
+    rpc saveJobseekerAffiliation(protos.domain.JobseekerAffiliation) returns (protos.domain.Error);
 }
