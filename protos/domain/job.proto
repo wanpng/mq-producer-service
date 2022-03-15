@@ -35,7 +35,7 @@ message Employer {
     string employer_id = 1;
     string employer_name= 2;
     string employer_photo_url = 3;
-    string employer_is_lanco = 4;
+    bool employer_is_lanco = 4;
 }
 
 message JobIds {
@@ -46,6 +46,6 @@ message UpdateJobCompanyProfile {
     string employer_id = 1;
     string company_name = 2;
     string photo = 3;
-    string is_lanco = 4;
+    bool is_lanco = 4;
     repeated JobIds jobs = 5;
 }
