@@ -3,7 +3,6 @@ module github.com/wanpng/mq-producer-service
 go 1.15
 
 require (
-	github.com/golang/protobuf v1.4.3
 	github.com/soheilhy/cmux v0.1.4
 	github.com/spf13/viper v1.7.1
 	github.com/streadway/amqp v1.0.0
@@ -12,5 +11,6 @@ require (
 	golang.org/x/text v0.3.5 // indirect
 	google.golang.org/genproto v0.0.0-20210207032614-bba0dbe2a9ea // indirect
 	google.golang.org/grpc v1.37.0
-	google.golang.org/protobuf v1.25.0
+	google.golang.org/grpc/examples v0.0.0-20220314230434-84793b56f63c // indirect
+	google.golang.org/protobuf v1.26.0
 )
